@@ -7,3 +7,8 @@ C
 src/day1/Part1.java,7\1\715cb508b4d83dda9fed4ac1b66d043665e71e92
 C
 src/day1/Part2.java,a\9\a9ccef6897b139093bc3acaa1c49b65438a1b8f0
+G
+advent-of-code-2023.iml,b\7\b7c0d4d574aeda5b4992e60bdb7747e3afa7d94c
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
