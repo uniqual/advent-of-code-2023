@@ -21,10 +21,11 @@ public class CubeConundrum {
 
     public static void main(String[] args) {
         var inputs = InputReader.getAllFileLines("day02.txt");
-        System.out.println(parseGame(inputs));
+        System.out.println(part1SumAllPossibleGameIds(inputs));
+        System.out.println(part2PowerOfGameHighestSet(inputs));
     }
 
-    private static int parseGame(List<String> inputs) {
+    private static int part1SumAllPossibleGameIds(List<String> inputs) {
         int sum = 0;
         for (var input : inputs) {
             var gameSetArray = input.split(":");
@@ -36,6 +37,17 @@ public class CubeConundrum {
         }
         return sum;
     }
+
+    private static int part2PowerOfGameHighestSet(List<String> inputs) {
+        int power = 0;
+        for (var input : inputs) {
+            var gameSetArray = input.split(":");
+            var colorNumberMap = parseSets(gameSetArray[1]);
+            power = power + (colorNumberMap.get(RED) * colorNumberMap.get(BLUE) * colorNumberMap.get(GREEN));
+        }
+        return power;
+    }
+
 
     private static Map<String, Integer> parseSets(String fullGameSet) {
         var colorNumberMap = new HashMap<String, Integer>();
