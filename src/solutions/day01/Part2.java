@@ -1,4 +1,4 @@
-package day1;
+package solutions.day01;
 
 import java.util.List;
 import java.util.Map;
