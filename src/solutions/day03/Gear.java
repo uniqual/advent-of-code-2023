@@ -3,8 +3,10 @@ package solutions.day03;
 import solutions.InputReader;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Gear {
 
@@ -16,21 +18,34 @@ public class Gear {
     private static int part1(List<String> fileLines) {
         List<Line> lines = buildLines(fileLines);
         List<Integer> adjacentNumbers = new ArrayList<>();
-        for (int i = 0; i < lines.size(); i++) {
-            List<Symbol> prevSymbols = getPrevLineSymbols(lines, i);
-            Line line = lines.get(i);
-            List<Symbol> nextSymbols = getNextLineSymbols(lines, i);
-            adjacentNumbers.addAll(findAdjacentNumbers(line, prevSymbols, nextSymbols));
-        }
-        return adjacentNumbers.stream().mapToInt(Integer::intValue).sum();
+        collectAdjacentNumbers(lines, adjacentNumbers);
+        return adjacentNumbers.stream()
+                .mapToInt(Integer::intValue)
+                .sum();
     }
 
     private static List<Line> buildLines(List<String> fileLines) {
         List<Line> lines = new ArrayList<>();
-        for (String fileLine : fileLines) {
-            lines.add(new Line(fileLine));
+        for (int i = 0; i < fileLines.size(); i++) {
+            lines.add(new Line(i, fileLines.get(i)));
         }
         return lines;
+    }
+
+    private static void collectAdjacentNumbers(List<Line> lines, List<Integer> adjacentNumbers) {
+        for (Line line : lines) {
+            List<Symbol> allSymbols = Stream.of(line.getSymbols(),
+                            getPrevLineSymbols(lines, line.lineNumber()),
+                            getNextLineSymbols(lines, line.lineNumber()))
+                    .flatMap(Collection::stream)
+                    .toList();
+
+            for (var number : line.getNumbers()) {
+                if (isAdjacentNumber(allSymbols, number)) {
+                    adjacentNumbers.add(number.number());
+                }
+            }
+        }
     }
 
     private static List<Symbol> getPrevLineSymbols(List<Line> lines, int index) {
@@ -49,30 +64,8 @@ public class Gear {
         return Collections.emptyList();
     }
 
-    private static List<Integer> findAdjacentNumbers(Line line, List<Symbol> prevSymbols, List<Symbol> nextSymbols) {
-        List<Symbol> allSymbols = new ArrayList<>();
-        allSymbols.addAll(line.getSymbols());
-        allSymbols.addAll(prevSymbols);
-        allSymbols.addAll(nextSymbols);
-
-        List<Integer> integers = new ArrayList<>();
-
-        for (var number : line.getNumbers()) {
-            if (isAdjacentNumber(number, allSymbols)) {
-                integers.add(number.number());
-            }
-        }
-        return integers;
-    }
-
-    private static boolean isAdjacentNumber(Number number, List<Symbol> symbols) {
-        var flag = false;
-        for (var symbol : symbols) {
-            if ((number.xPos() - 1) <= symbol.position() && (number.yPos() + 1) >= symbol.position()) {
-                flag = true;
-                break;
-            }
-        }
-        return flag;
+    private static boolean isAdjacentNumber(List<Symbol> symbols, Number number) {
+       return symbols.stream()
+                .anyMatch(symbol -> (number.xPos() - 1) <= symbol.position() && (number.yPos() + 1) >= symbol.position());
     }
 }
