@@ -48,7 +48,6 @@ public class CubeConundrum {
         return power;
     }
 
-
     private static Map<String, Integer> parseSets(String fullGameSet) {
         var colorNumberMap = new HashMap<String, Integer>();
 
