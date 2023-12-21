@@ -39,7 +39,6 @@ public class Gear {
                             getNextLineSymbols(lines, line.lineNumber()))
                     .flatMap(Collection::stream)
                     .toList();
-
             for (var number : line.getNumbers()) {
                 if (isAdjacentNumber(allSymbols, number)) {
                     adjacentNumbers.add(number.number());
