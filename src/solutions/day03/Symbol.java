@@ -1,5 +1,5 @@
 package solutions.day03;
 
-public record Symbol(char symbol, int position) {
+public record Symbol(String symbol, int position) {
 
 }

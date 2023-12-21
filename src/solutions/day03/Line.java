@@ -11,9 +11,9 @@ public record Line(int lineNumber, String line) {
         Matcher numberMatcher = numberPattern.matcher(line);
         return numberMatcher.results()
                 .map(matchResult -> {
-                    int number = Integer.parseInt(matchResult.group(0));
-                    int xPos = matchResult.start();
-                    int yPos = matchResult.end() - 1;
+                    var number = Integer.parseInt(matchResult.group(0));
+                    var xPos = matchResult.start();
+                    var yPos = matchResult.end() - 1;
                     return new Number(number, xPos, yPos);
                 }).toList();
     }
@@ -23,19 +23,19 @@ public record Line(int lineNumber, String line) {
         Matcher symbolMatcher = symbolPattern.matcher(line);
         return symbolMatcher.results()
                 .map(matchResult -> {
-                    char symbol = matchResult.group(0).charAt(0);
-                    int position = matchResult.start();
+                    var symbol = matchResult.group(0);
+                    var position = matchResult.start();
                     return new Symbol(symbol, position);
                 }).toList();
     }
 
-    public List<Symbol> getGearRationSymbols() {
+    public List<Symbol> getGearRatioSymbols() {
         Pattern symbolPattern = Pattern.compile("[\\*]");
         Matcher symbolMatcher = symbolPattern.matcher(line);
         return symbolMatcher.results()
                 .map(matchResult -> {
-                    char symbol = matchResult.group(0).charAt(0);
-                    int position = matchResult.start();
+                    var symbol = matchResult.group(0);
+                    var position = matchResult.start();
                     return new Symbol(symbol, position);
                 }).toList();
     }
